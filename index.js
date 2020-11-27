@@ -39,7 +39,7 @@ async function run() {
     }
 
     const slackUrl = `https://hooks.slack.com/services/${slackToken}`;
-    const webhook = new IncomingWebhook(url);
+    const webhook = new IncomingWebhook(slackUrl);
     await webhook.send({text});
 
   } catch (error) {
