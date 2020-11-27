@@ -35,7 +35,7 @@ async function run() {
     let text = `Conflicts detected in following pull requests:`;
     for (let pull of problemPulls) {
       text += `
-        <${pull.html_url}|#${pull.number}> ${pull.title} @{pull.user.login}`;
+        <${pull.html_url}|#${pull.number}> ${pull.title} @${pull.user.login}`;
     }
 
     const slackUrl = `https://hooks.slack.com/services/${slackToken}`;
