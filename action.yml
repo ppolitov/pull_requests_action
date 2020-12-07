@@ -1,7 +1,13 @@
 name: 'Pull Requests'
 description: 'Check pull requests'
 inputs:
+  branch:
+    description: 'Base ref of pull requests'
+    required: true
   token:
+    description: ''
+    required: true
+  slack_token:
     description: ''
     required: true
 runs:
