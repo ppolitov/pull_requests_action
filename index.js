@@ -18,14 +18,17 @@ function timeout(ms) {
  * @return {Object} pull_request
  */
 async function getPullRequest(octokit, owner, repo, pull_number) {
+  let last = null;
   for (let i = 0; i < 10; i++) {
     const { data: pr } = await octokit.pulls.get({owner, repo, pull_number});
     // Null while github checks the pull request
     if (pr.mergeable !== null) {
       return pr;
     }
+    last = pr;
     await timeout(1000);
   }
+  return last;
 }
 
 async function run() {
@@ -48,12 +51,14 @@ async function run() {
     const problemPulls = [];
     for (let pull of openPulls) {
       const pr = await getPullRequest(octokit, owner, repo, pull.number);
+      console.log(`#${pull.number} rebaseable:${pr.rebaseable}
+        mergeable:${pr.mergeable} mergeable_state:${pr.mergeable_state}`);
       if (pr && pr.rebaseable === false) { // can be null
         problemPulls.push(pr);
       }
     }
 
-    console.log('Not rebaseable pull requests:', problemPulls.number);
+    console.log('Not rebaseable pull requests:', problemPulls.length);
 
     if (problemPulls.length == 0) {
       return;
