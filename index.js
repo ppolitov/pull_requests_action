@@ -53,12 +53,12 @@ async function run() {
       const pr = await getPullRequest(octokit, owner, repo, pull.number);
       console.log(`#${pull.number} rebaseable:${pr.rebaseable}
         mergeable:${pr.mergeable} mergeable_state:${pr.mergeable_state}`);
-      if (pr && pr.rebaseable === false) { // can be null
+      if (pr && pr.mergeable === false) { // can be null
         problemPulls.push(pr);
       }
     }
 
-    console.log('Not rebaseable pull requests:', problemPulls.length);
+    console.log('Not mergeable pull requests:', problemPulls.length);
 
     if (problemPulls.length == 0) {
       return;
